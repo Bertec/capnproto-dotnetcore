@@ -25,4 +25,14 @@
     <ProjectReference Include="..\Capnp.Net.Runtime\Capnp.Net.Runtime.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <PublishProtocol>FileSystem</PublishProtocol>
+    <PublishDir>$(OutputPath)</PublishDir>
+    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <_IsPortable>false</_IsPortable>
+    <PostBuildDependsOn>$(_CorePublishTargets)</PostBuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" DependsOnTargets="$(PostBuildDependsOn)" />
 </Project>
