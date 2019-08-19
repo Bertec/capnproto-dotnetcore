@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RootNamespace>CapnpC</RootNamespace>
     <LangVersion>7.1</LangVersion>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Christian Köllner and contributors</Authors>
     <Description>Cap'n Proto C# code generator backend</Description>
@@ -31,7 +31,6 @@
     <RuntimeIdentifier>win-x86</RuntimeIdentifier>
     <SelfContained>true</SelfContained>
     <_IsPortable>false</_IsPortable>
-    <PostBuildDependsOn>$(_CorePublishTargets)</PostBuildDependsOn>
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" DependsOnTargets="$(PostBuildDependsOn)" />
