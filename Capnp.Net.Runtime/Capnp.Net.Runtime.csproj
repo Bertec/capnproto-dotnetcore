@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <RootNamespace>Capnp</RootNamespace>
     <LangVersion>7.2</LangVersion>
     <AssemblyName>Capnp.Net.Runtime</AssemblyName>
