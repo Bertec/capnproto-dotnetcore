@@ -15,7 +15,7 @@ namespace CapnpC.Model
         {
             Trace.Assert(parent != null);
             Id = id;
-            IsGenerated = (parent as IDefinition).IsGenerated;
+            IsGenerated = ((IDefinition) parent).IsGenerated;
             DeclaringElement = parent;
             parent.NestedDefinitions.Add(this);
         }

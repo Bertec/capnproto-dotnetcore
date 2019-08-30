@@ -95,7 +95,7 @@ namespace CapnpC.Model
 
         IDefinition ProcessNodePass1(ulong id, string name, Pass1State state)
         {
-            bool mustExist = state.parent == null || (state.parent as IDefinition).IsGenerated;
+            bool mustExist = state.parent == null || ((IDefinition) state.parent).IsGenerated;
             if (!(IdToNode(id, mustExist) is Schema.Node.Reader node))
                 return null;
             if (!state.unprocessedNodes.Remove(id))
