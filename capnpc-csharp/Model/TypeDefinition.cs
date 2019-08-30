@@ -13,7 +13,7 @@ namespace CapnpC.Model
                 TagOffset = tagOffset;
             }
 
-            public ushort NumOptions { get; }
+            public ushort NumOptions { get; } // FIXME: this property is not used
             public uint TagOffset { get; }
         }
 

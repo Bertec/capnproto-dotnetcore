@@ -22,8 +22,8 @@
         StructPointer,
         ListPointer,
         CapabilityPointer,
-        ParameterPointer,
-        ImplicitMethodParameterPointer,
+        ParameterPointer, // TODO: unused
+        ImplicitMethodParameterPointer, // TODO: unused
         Struct,
         Group,
         Interface,

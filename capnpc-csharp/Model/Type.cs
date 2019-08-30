@@ -120,7 +120,7 @@ namespace CapnpC.Model
             get
             {
                 var parentDef = Definition?.DeclaringElement as TypeDefinition;
-                // FIXME: Will become more sophisticated as soon as generics are implemented
+                // FIXME TODO: Will become more sophisticated as soon as generics are implemented
                 return parentDef != null ? Types.FromDefinition(parentDef) : null;
             }
         }
