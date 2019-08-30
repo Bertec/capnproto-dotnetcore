@@ -11,7 +11,7 @@ namespace CapnpC.Model
         readonly List<GenFile> _generatedFiles = new List<GenFile>();
         readonly DefinitionManager _typeDefMgr = new DefinitionManager();
 
-        readonly Dictionary<ulong, Schema.Node.Reader> _id2node = new Dictionary<ulong, Schema.Node.Reader>();
+        readonly Dictionary<ulong, Schema.Node.Reader> _id2Node = new Dictionary<ulong, Schema.Node.Reader>();
 
         public SchemaModel(Schema.CodeGeneratorRequest.Reader request)
         {
@@ -22,7 +22,7 @@ namespace CapnpC.Model
 
         Schema.Node.Reader? IdToNode(ulong id, bool mustExist)
         {
-            if (_id2node.TryGetValue(id, out var node))
+            if (_id2Node.TryGetValue(id, out var node))
                 return node;
             if (mustExist)
                 throw new InvalidSchemaException($"Node with ID {id.StrId()} is required by the codegen backend but is missing.");
@@ -43,11 +43,11 @@ namespace CapnpC.Model
 
             foreach (var node in _request.Nodes)
             {
-                if (_id2node.TryGetValue(node.Id, out var existingNode))
+                if (_id2Node.TryGetValue(node.Id, out var existingNode))
                 {
                     throw new InvalidSchemaException($"Node {node.StrId()} \"{node.DisplayName}\" has a duplicate ID, prior node was \"{existingNode.DisplayName}\"");
                 }
-                _id2node[node.Id] = node;
+                _id2Node[node.Id] = node;
             }
 
             var requestedFiles = _request.RequestedFiles.ToDictionary(req => req.Id);
@@ -67,9 +67,9 @@ namespace CapnpC.Model
         {
             Pass1State state = new Pass1State()
             {
-                unprocessedNodes = new HashSet<ulong>(_id2node.Keys)
+                unprocessedNodes = new HashSet<ulong>(_id2Node.Keys)
             };
-            foreach (var node in _id2node.Values.Where(n => n.IsFile))
+            foreach (var node in _id2Node.Values.Where(n => n.IsFile))
             {
                 bool isGenerated = requestedFiles.TryGetValue(node.Id, out var req);
                 var filename = isGenerated ? req.Filename : node.DisplayName;
