@@ -13,7 +13,7 @@ namespace CapnpC.Model
 
         readonly Dictionary<ulong, Schema.Node.Reader> _id2Node = new Dictionary<ulong, Schema.Node.Reader>();
 
-        public SchemaModel(Schema.CodeGeneratorRequest.Reader request)
+        SchemaModel(Schema.CodeGeneratorRequest.Reader request)
         {
             _request = request;
         }

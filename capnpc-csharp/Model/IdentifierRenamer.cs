@@ -2,7 +2,7 @@
 
 namespace CapnpC.Model
 {
-    public class IdentifierRenamer
+    public static class IdentifierRenamer
     {
         public static bool IsAnyKeyword(string str)
         {
