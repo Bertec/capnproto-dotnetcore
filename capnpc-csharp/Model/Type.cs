@@ -54,6 +54,9 @@ namespace CapnpC.Model
 
         public void InheritFreeParameters(IHasGenericParameters declaringType)
         {
+            if (Tag == TypeTag.List) Debugger.Break();
+            //ElementType?.InheritFreeParameters(declaringType); // BUG: this is always null
+
             while (declaringType != null)
             {
                 foreach (var p in declaringType.GetLocalTypeParameters())
@@ -110,7 +113,7 @@ namespace CapnpC.Model
             return stype;
         }
 
-        Field SubstituteGenerics(Field field)
+        internal Field SubstituteGenerics(Field field)
         {
             var result = field.Clone();
             result.Type = SubstituteGenerics(result.Type);
