@@ -46,7 +46,7 @@ namespace CapnpC.Model
 
         public Type Type { get; set; }
         public object ScalarValue { get; set; }
-        public Capnp.DeserializerState RawValue { get; set; }
+        public DeserializerState RawValue { get; set; }
         public List<Value> Items { get; } = new List<Value>();
         public int VoidListCount { get; set; }
         public ushort DiscriminatorValue { get; private set; }
@@ -65,7 +65,7 @@ namespace CapnpC.Model
 
         void DecodeStruct()
         {
-            if (RawValue.Kind != Capnp.ObjectKind.Struct)
+            if (RawValue.Kind != ObjectKind.Struct)
             {
                 throw new NotSupportedException();
             }
@@ -294,7 +294,7 @@ namespace CapnpC.Model
                     break;
             }
 
-            RawValue = default(Capnp.DeserializerState);
+            RawValue = default;
         }
     }
 }

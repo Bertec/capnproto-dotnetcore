@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 namespace CapnpC.Model
 {
@@ -53,7 +52,7 @@ namespace CapnpC.Model
 
             var requestedFiles = _request.RequestedFiles.ToDictionary(req => req.Id);
             BuildPass1(requestedFiles);
-            BuildPass2(requestedFiles);
+            BuildPass2();
         }
 
         // First pass: create type definitions for each node.
@@ -181,7 +180,7 @@ namespace CapnpC.Model
             {
                 if (annotation.Id == 0xb9c6f99ebf805f2c) // Cxx namespace
                 {
-                    return annotation.Value.Text.Split(new string[1] { "::" }, default);
+                    return annotation.Value.Text.Split(new[] { "::" }, default);
                 }
             }
             return null;
@@ -195,7 +194,7 @@ namespace CapnpC.Model
             public HashSet<ulong> processedNodes;
         }
 
-        void BuildPass2(Dictionary<ulong, Schema.CodeGeneratorRequest.RequestedFile.Reader> requestedFiles)
+        void BuildPass2()
         {
             var state = new Pass2State() { processedNodes = new HashSet<ulong>() };
             foreach (var file in _typeDefMgr.Files)
@@ -655,7 +654,7 @@ namespace CapnpC.Model
             return ProcessInterfaceOrStructTail(def, ifaceReader, state);
         }
 
-        TypeDefinition ProcessEnum(Schema.Node.Reader enumReader, TypeDefinition def, Pass2State state)
+        TypeDefinition ProcessEnum(Schema.Node.Reader enumReader, TypeDefinition def)
         {
             foreach (var fieldReader in enumReader.Enumerants)
             {
@@ -712,7 +711,7 @@ namespace CapnpC.Model
                     def.DeclaringElement.Constants.Add(ProcessConst(node, constant, state));
                     return def;
                 case TypeDefinition typeDef when kind == NodeKind.Enum:
-                    return ProcessEnum(node, typeDef, state);
+                    return ProcessEnum(node, typeDef);
                 case TypeDefinition typeDef when kind == NodeKind.Interface:
                     return ProcessInterface(node, typeDef, state);
                 case TypeDefinition typeDef when kind == NodeKind.Struct || kind == NodeKind.Group:
