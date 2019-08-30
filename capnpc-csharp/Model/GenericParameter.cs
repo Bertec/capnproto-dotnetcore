@@ -14,7 +14,7 @@
             // Therefore we end in two GenericParameter instances, one with the Method as declaring entity, the
             // other one with the params/result type definition as declaring entity. They are semantically the same,
             // and the easy way to match them is by Name. Equality by Name is the only working choice, even though
-            // it feels a little less reboust than by matching declaring entity + parameter position.
+            // it feels a little less robust than by matching declaring entity + parameter position.
             return obj is GenericParameter other && Name == other.Name;
         }
 
