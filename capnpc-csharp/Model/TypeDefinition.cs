@@ -41,7 +41,7 @@ namespace CapnpC.Model
         public new List<Field> Fields => base.Fields;
         public List<Enumerant> Enumerants { get; } = new List<Enumerant>();
         public ICollection<IDefinition> NestedDefinitions { get; } = new List<IDefinition>();
-        public IEnumerable<TypeDefinition> NestedTypes { get => this.GetNestedTypes(); }
+        public IEnumerable<TypeDefinition> NestedTypes => this.GetNestedTypes();
         public List<TypeDefinition> NestedGroups { get; } = new List<TypeDefinition>();
         public ICollection<Constant> Constants { get; } = new List<Constant>();
         public List<Method> Methods { get; } = new List<Method>();
@@ -75,14 +75,9 @@ namespace CapnpC.Model
             }
         }
 
-        public IEnumerable<GenericParameter> AllTypeParameters
-        {
-            get
-            {
-                return from def in DefinitionHierarchy
-                       from p in def.GetLocalTypeParameters()
-                       select p;
-            }
-        }
+        public IEnumerable<GenericParameter> AllTypeParameters => // TODO: unused
+            from def in DefinitionHierarchy
+            from p in def.GetLocalTypeParameters()
+            select p;
     }
 }

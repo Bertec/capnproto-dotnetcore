@@ -35,10 +35,8 @@ namespace CapnpC.Model
         public IDefinition GetExistingDef(ulong id, TypeTag tag)
             => GetId<IDefinition>(id, tag);
 
-        public IEnumerable<GenFile> Files
-        {
-            get => _id2def.Values.Where(d => d.Tag == TypeTag.File).Select(f => f as GenFile);
-        }
+        public IEnumerable<GenFile> Files 
+            => _id2def.Values.Where(d => d.Tag == TypeTag.File).Select(f => f as GenFile);
 
         T CreateId<T>(ulong id, Func<IDefinition> creator) where T : class, IDefinition
         {

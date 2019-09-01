@@ -71,10 +71,9 @@ namespace CapnpC.Model
             };
             foreach (var node in _id2node.Values.Where(n => n.IsFile))
             {
-                GenFile file;
                 bool isGenerated = requestedFiles.TryGetValue(node.Id, out var req);
                 var filename = isGenerated ? req.Filename : node.DisplayName;
-                file = ProcessFilePass1(node.Id, filename, state, isGenerated);
+                var file = ProcessFilePass1(node.Id, filename, state, isGenerated);
                 if (isGenerated)
                     _generatedFiles.Add(file);
             }

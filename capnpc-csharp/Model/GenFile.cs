@@ -6,13 +6,13 @@ namespace CapnpC.Model
     {
         public ulong Id { get;  }
         public bool IsGenerated { get;  }
-        public TypeTag Tag { get => TypeTag.File;  }
-        public IHasNestedDefinitions DeclaringElement { get => null; }
+        public TypeTag Tag => TypeTag.File;
+        public IHasNestedDefinitions DeclaringElement => null;
 
         public string Name { get; set; }
         public string[] Namespace { get; set; }
 
-        public IEnumerable<TypeDefinition> NestedTypes { get => this.GetNestedTypes(); }
+        public IEnumerable<TypeDefinition> NestedTypes => this.GetNestedTypes();
         public ICollection<IDefinition> NestedDefinitions { get; } = new List<IDefinition>();
         public ICollection<Constant> Constants { get; } = new List<Constant>();
 
