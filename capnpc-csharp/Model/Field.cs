@@ -2,9 +2,9 @@
 {
     class Field
     {
-        public TypeDefinition DeclaringType { get; set; }
+        public string Name { get; }
+        public TypeDefinition DeclaringType { get; }
         public Field Parent { get; set; }
-        public string Name { get; set; }
         public Type Type { get; set; }
         public Value DefaultValue { get; set; }
         public bool DefaultValueIsExplicit { get; set; }
@@ -14,13 +14,17 @@
 
         public ulong? BitOffset => (ulong)Offset * Type?.FixedBitWidth;
 
+        public Field(string name, TypeDefinition declaringType)
+        {
+            Name = name;
+            DeclaringType = declaringType;
+        }
+
         public Field Clone()
         {
-            var field = new Field()
+            var field = new Field(Name, DeclaringType)
             {
-                DeclaringType = DeclaringType,
                 Parent = Parent,
-                Name = Name,
                 Type = Type,
                 DefaultValue = DefaultValue,
                 DefaultValueIsExplicit = DefaultValueIsExplicit,

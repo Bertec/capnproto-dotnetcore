@@ -486,10 +486,8 @@ namespace CapnpC.Model
 
             foreach (var fieldReader in reader.Fields)
             {
-                var field = new Field()
+                var field = new Field(fieldReader.Name, declaringType)
                 {
-                    DeclaringType = declaringType,
-                    Name = fieldReader.Name,
                     CodeOrder = fieldReader.CodeOrder
                 };
 
@@ -636,7 +634,7 @@ namespace CapnpC.Model
                 // Single, anonymous, struct-typed parameter
                 var type = Types.FromDefinition(def);
                 ProcessBrand(brandReader, type, state);
-                var anon = new Field() { Type = type };
+                var anon = new Field(null, null) { Type = type };
                 list.Add(anon);
                 return null;
             }

@@ -7,7 +7,7 @@ namespace CapnpC.Model
     {
         // Representation of a type expression in the schema language
 
-        public TypeDefinition Definition { get; set; }
+        public TypeDefinition Definition { get; }
         // The model for all nodes that are not file nodes - they define types
 
         public GenericParameter Parameter { get; set; }
@@ -18,9 +18,16 @@ namespace CapnpC.Model
 
         readonly Dictionary<GenericParameter, Type> _parameterBindings =
             new Dictionary<GenericParameter, Type>();
+
         public Type(TypeTag tag)
         {
             Tag = tag;
+        }
+
+        public Type(TypeDefinition def)
+        {
+            Tag = def.Tag;
+            Definition = def;
         }
 
         public bool IsValueType
@@ -83,11 +90,8 @@ namespace CapnpC.Model
                 }
             }
 
-            var stype = new Type(type.Tag)
-            {
-                Definition = type.Definition,
-                ElementType = SubstituteGenerics(type.ElementType)
-            };
+            var stype = type.Definition == null ? new Type(type.Tag) : new Type(type.Definition);
+            stype.ElementType = SubstituteGenerics(type.ElementType);
 
             foreach (var kvp in type._parameterBindings)
             {

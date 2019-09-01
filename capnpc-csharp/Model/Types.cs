@@ -39,10 +39,7 @@ namespace CapnpC.Model
                 throw new InvalidOperationException("Oops, type definition is not yet valid, cannot create type");
             }
 
-            return new Type(def.Tag)
-            {
-                Definition = def
-            };
+            return new Type(def);
         }
 
         public static Type FromParameter(GenericParameter genericParameter)
