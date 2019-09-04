@@ -28,6 +28,7 @@
     <Compile Include="..\Capnp.Net.Runtime.Tests\TestCapImplementations.cs" Link="TestCapImplementations.cs" />
     <Compile Include="..\Capnp.Net.Runtime.Tests\TestInterfaces.cs" Link="TestInterfaces.cs" />
     <Compile Include="..\Capnp.Net.Runtime.Tests\WirePointerTests.cs" Link="WirePointerTests.cs" />
+    <Compile Include="..\Capnp.Net.Runtime.Tests\PackingTests.cs" Link="PackingTests.cs" />
   </ItemGroup>
 
   <ItemGroup>

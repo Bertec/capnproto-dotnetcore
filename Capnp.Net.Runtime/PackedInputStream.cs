@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Capnp
 {
-    class PackedInputStream : Stream
+    public class PackedInputStream : Stream
     {
-        Stream _stream;
+        readonly Stream _stream;
 
         byte _tag;
         UInt16 _byteNLeft; // how many bytes are left to be copied verbatim
@@ -24,7 +24,7 @@ namespace Capnp
         int _inputCount;
         readonly int _bufferSize;
         const int DefaultBufferSize = 4096;
-
+        long _outputPosition;
 
         public PackedInputStream(Stream stream) : this(stream, DefaultBufferSize) { }
 
@@ -107,7 +107,9 @@ namespace Capnp
             FillInputBuffer();
 
             int readNow = ReadFromBuffer(buffer, offset, count);
-            return readSoFar + readNow;
+            readSoFar += readNow;
+            _outputPosition += readSoFar;
+            return readSoFar;
         }
 
         void FillInputBuffer()
@@ -121,8 +123,7 @@ namespace Capnp
         int ReadFromBuffer(byte[] buffer, int offset, int count)
         {
             Debug.Assert(count > 0);
-            Debug.Assert(_spillLeft >= 0);
-            Debug.Assert(_spillLeft <= 7);
+            Debug.Assert(_spillLeft <= 8);
 
             int hadRead = 0;
 
@@ -132,14 +133,14 @@ namespace Capnp
             {
                 UInt64 spillWord = _spillWord;
                 if (count < spillAvailable) spillAvailable = (byte)count;
-                if (spillAvailable >= 7) buffer[offset++] = (byte)(spillWord >> (0 * 8));
-                if (spillAvailable >= 6) buffer[offset++] = (byte)(spillWord >> (1 * 8));
-                if (spillAvailable >= 5) buffer[offset++] = (byte)(spillWord >> (2 * 8));
-                if (spillAvailable >= 4) buffer[offset++] = (byte)(spillWord >> (3 * 8));
-                if (spillAvailable >= 3) buffer[offset++] = (byte)(spillWord >> (4 * 8));
-                if (spillAvailable >= 2) buffer[offset++] = (byte)(spillWord >> (5 * 8));
-                if (spillAvailable >= 1) buffer[offset++] = (byte)(spillWord >> (6 * 8));
-                if (spillAvailable >= 0) buffer[offset++] = (byte)(spillWord >> (7 * 8));
+                if (spillAvailable > 7) buffer[offset++] = (byte)(spillWord >> (0 * 8));
+                if (spillAvailable > 6) buffer[offset++] = (byte)(spillWord >> (1 * 8));
+                if (spillAvailable > 5) buffer[offset++] = (byte)(spillWord >> (2 * 8));
+                if (spillAvailable > 4) buffer[offset++] = (byte)(spillWord >> (3 * 8));
+                if (spillAvailable > 3) buffer[offset++] = (byte)(spillWord >> (4 * 8));
+                if (spillAvailable > 2) buffer[offset++] = (byte)(spillWord >> (5 * 8));
+                if (spillAvailable > 1) buffer[offset++] = (byte)(spillWord >> (6 * 8));
+                if (spillAvailable > 0) buffer[offset++] = (byte)(spillWord >> (7 * 8));
                 _spillLeft -= spillAvailable;
                 count -= spillAvailable;
                 hadRead += spillAvailable;
@@ -163,6 +164,7 @@ namespace Capnp
          in += isNonzero; \
       }
 #endif
+            return 0;
 
         }
 
@@ -188,20 +190,12 @@ namespace Capnp
 
         public override bool CanSeek => false;
         public override bool CanWrite => false;
-        public override long Length {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public override long Length => throw new NotImplementedException();
 
         public override long Position
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set { throw new NotImplementedException(); }
+            get => _outputPosition;
+            set => throw new NotImplementedException();
         }
 
     }
